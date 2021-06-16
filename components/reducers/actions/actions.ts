@@ -27,6 +27,6 @@ export const updateScore =
 export const showQuestion = (index: number) => async (dispatch: any) => {
   dispatch({
     type: SHOW_QUESTION,
-    payload: { index: index + 1 },
+    payload: { index: index, QuestionNumber: index + 1 },
   })
 }

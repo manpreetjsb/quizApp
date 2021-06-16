@@ -32,6 +32,7 @@ const reducer = (state: any = initialState, { type, payload }) => {
       return {
         ...state,
         index: payload.index,
+        QuestionNumber: payload.QuestionNumber,
       }
     default:
       return state

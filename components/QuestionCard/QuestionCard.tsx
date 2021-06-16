@@ -26,9 +26,7 @@ const QuestionCard: React.FC<Props> = ({
       <Box>
         {questionNo} / {totalQuestions}
       </Box>
-      <Grid item component="h3">
-        {question}
-      </Grid>
+      <Grid item component="h3" dangerouslySetInnerHTML={{ __html: question }}></Grid>
       {answers.map((item) => {
         return (
           <Grid item>
