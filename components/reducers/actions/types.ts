@@ -6,20 +6,16 @@ export interface Question {
   incorrect_answers: string[]
   question: string
   type: string
+  userAnswer: String
+  forLater: boolean
 }
+
 export interface Quiz {
   questions: Question[]
   loading: boolean
   QuizOver: boolean
   score: number
   QuestionNumber: number
-  TotalNumber: number
+  TotalQuestion: number
   index: number
-}
-
-export interface AnswerObject {
-  question: string
-  answer: string
-  correct: boolean
-  correctAnswer: string
 }
