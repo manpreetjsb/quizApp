@@ -1,16 +1,26 @@
 export interface Question {
-  answer: string[]
+  answers: string[]
   category: string
   correct_answer: string
   difficulty: string
   incorrect_answers: string[]
   question: string
   type: string
-  userAnswer: String
+  userAnswer: string
   forLater: boolean
 }
 
 export interface Quiz {
+  questions: Question[]
+  loading: boolean
+  QuizOver: boolean
+  score: number
+  QuestionNumber: number
+  TotalQuestion: number
+  index: number
+}
+
+export type RootState = {
   questions: Question[]
   loading: boolean
   QuizOver: boolean

@@ -6,6 +6,7 @@ import {
   SHOW_QUESTION,
   MAKE_HIGHLIGHT,
   FINISH_QUIZ,
+  TRY_AGAIN,
 } from '../reducers/actions/constant'
 
 const initialState: Quiz = {
@@ -50,6 +51,17 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         QuizOver: payload.QuizOver,
+      }
+    case TRY_AGAIN:
+      return {
+        ...state,
+        questions: [],
+        loading: true,
+        QuizOver: true,
+        score: 0,
+        TotalQuestion: 0,
+        QuestionNumber: 1,
+        index: 0,
       }
     default:
       return state

@@ -1,8 +1,15 @@
 import { Dispatch } from 'redux'
-import { GET_DATA, CHECK_ANSWER, SHOW_QUESTION, MAKE_HIGHLIGHT, FINISH_QUIZ } from './constant'
+import {
+  GET_DATA,
+  CHECK_ANSWER,
+  SHOW_QUESTION,
+  MAKE_HIGHLIGHT,
+  FINISH_QUIZ,
+  TRY_AGAIN,
+} from './constant'
 import { Question } from '../actions/types'
 
-export const shuffleArray = (array: any[]) => [...array].sort(() => Math.random() - 0.5)
+const shuffleArray = (array: any[]) => [...array].sort(() => Math.random() - 0.5)
 
 export const getData = () => async (dispatch: Dispatch) => {
   const endpoint = 'https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple'
@@ -56,8 +63,22 @@ export const finishQuiz = () => (dispatch: Dispatch) => {
     payload: { QuizOver: false },
   })
 }
+export const TryAgain = () => (dispatch: Dispatch) => {
+  dispatch({
+    type: TRY_AGAIN,
+    payload: {
+      questions: [],
+      loading: true,
+      QuizOver: true,
+      score: 0,
+      TotalQuestion: 0,
+      QuestionNumber: 1,
+      index: 0,
+    },
+  })
+}
 
-export const updateHighlight =
+export const MakeHighlight =
   (highlight: boolean, currentAnswer: string, QuizQuestions: Question[]) =>
   (dispatch: Dispatch) => {
     let result = QuizQuestions.map((item: Question) => {

@@ -9,10 +9,11 @@ import {
   getData,
   updateScore,
   showQuestion,
-  updateHighlight,
+  MakeHighlight,
   finishQuiz,
+  TryAgain,
 } from '../reducers/actions/actions'
-import { Quiz } from '../reducers/actions/types'
+import { Question, Quiz, RootState } from '../reducers/actions/types'
 import { FinishButton } from './index.styles'
 
 const Dashboard: React.FC<Quiz> = () => {
@@ -20,8 +21,8 @@ const Dashboard: React.FC<Quiz> = () => {
   const [showFinish, setShowFinish] = useState(false)
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
-  const QuizQuestions = useSelector((state) => state.questions[state.index])
-  const QuizState = useSelector((state) => state)
+  const QuizQuestions = useSelector((state: RootState) => state.questions[state.index])
+  const QuizState = useSelector((state: RootState) => state)
   let correct: number = 0
 
   const checkAnswer = (userAnswerProp: string) => {
@@ -30,10 +31,13 @@ const Dashboard: React.FC<Quiz> = () => {
     } else {
       correct = 0
     }
+
+    const increase = QuizState.index < 9 ? 1 : 0
+    console.log(increase)
     dispatch(
       updateScore(
-        QuizState.index + 1,
-        QuizState.QuestionNumber + 1,
+        QuizState.index + increase,
+        QuizState.QuestionNumber + increase,
         QuizState.score + correct,
         userAnswerProp,
         QuizState.questions,
@@ -42,9 +46,9 @@ const Dashboard: React.FC<Quiz> = () => {
     )
   }
 
-  const makeHighlight = (prop: boolean) => {
+  const make_highlight = (prop: boolean) => {
     let highlight = !prop
-    dispatch(updateHighlight(highlight, QuizQuestions.correct_answer, QuizState.questions))
+    dispatch(MakeHighlight(highlight, QuizQuestions.correct_answer, QuizState.questions))
   }
 
   const show_question = (index: number) => {
@@ -61,6 +65,12 @@ const Dashboard: React.FC<Quiz> = () => {
 
   const finish_quiz = () => {
     dispatch(finishQuiz())
+    setShowFinish(false)
+  }
+  const try_again = () => {
+    dispatch(TryAgain())
+    setStart(true)
+    start_quiz()
   }
 
   //console.log('b', QuizQuestions)
@@ -83,9 +93,6 @@ const Dashboard: React.FC<Quiz> = () => {
             Finish
           </FinishButton>
         )}
-        <Button size="small" variant="contained" color="primary">
-          Try Again
-        </Button>
       </Box>
       {/*       <Box display="flex" justifyContent="center">
         {loading && <Typography>Loading Questions...</Typography>}
@@ -102,13 +109,13 @@ const Dashboard: React.FC<Quiz> = () => {
                 answers={QuizQuestions.answers}
                 userAnswer={QuizQuestions.userAnswer}
                 callBkFunction={checkAnswer}
-                callBkFunctionHigh={makeHighlight}
+                callBkFunctionHigh={make_highlight}
                 forLater={QuizQuestions.forLater}
               />
             )}
           </Box>
           <Box display="flex" justifyContent="center">
-            {QuizState.questions.map((item: any, index: any) => {
+            {QuizState.questions.map((item: Question, index: number) => {
               return (
                 <Box m={1}>
                   <Button
@@ -128,6 +135,11 @@ const Dashboard: React.FC<Quiz> = () => {
 
       {!QuizState.QuizOver && (
         <Grid>
+          <Box display="flex" justifyContent="center" m={1} onClick={() => try_again()}>
+            <Button size="small" variant="contained" color="primary">
+              Try Again
+            </Button>
+          </Box>
           <Box display="flex" justifyContent="center">
             Your Score is {QuizState.score} / Out of 10
           </Box>

@@ -8,7 +8,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 // Utils
 import theme from '../utils/theme'
 import { Provider } from 'react-redux'
-import store from './store'
+import store from '../components/reducers/store'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   React.useEffect(() => {
