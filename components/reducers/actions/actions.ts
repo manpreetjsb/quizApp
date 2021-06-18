@@ -1,11 +1,13 @@
-import { GET_DATA, CHECK_ANSWER, SHOW_QUESTION, MAKE_HIGHLIGHT } from './constant'
+import { Dispatch } from 'redux'
+import { GET_DATA, CHECK_ANSWER, SHOW_QUESTION, MAKE_HIGHLIGHT, FINISH_QUIZ } from './constant'
+import { Question } from '../actions/types'
 
 export const shuffleArray = (array: any[]) => [...array].sort(() => Math.random() - 0.5)
 
-export const getData = () => async (dispatch: any) => {
+export const getData = () => async (dispatch: Dispatch) => {
   const endpoint = 'https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple'
   const data = await (await fetch(endpoint)).json()
-  const result = data.results.map((question: any) => ({
+  const result = data.results.map((question: Question) => ({
     ...question,
     answers: shuffleArray([...question.incorrect_answers, question.correct_answer]),
     userAnswer: '',
@@ -24,13 +26,11 @@ export const updateScore =
     qnumber: number,
     score: number,
     useranswer: string,
-    QuizQuestions: any,
+    QuizQuestions: Question[],
     currentAnswer: string
   ) =>
-  (dispatch: any) => {
-    console.log(QuizQuestions)
-
-    let result = QuizQuestions.map((item: any) => {
+  (dispatch: Dispatch) => {
+    let result = QuizQuestions.map((item: Question) => {
       if (item.correct_answer === currentAnswer) {
         item = { ...item, userAnswer: useranswer }
       }
@@ -43,16 +43,24 @@ export const updateScore =
     })
   }
 
-export const showQuestion = (index: number) => async (dispatch: any) => {
+export const showQuestion = (index: number) => (dispatch: Dispatch) => {
   dispatch({
     type: SHOW_QUESTION,
     payload: { index: index, QuestionNumber: index + 1 },
   })
 }
 
+export const finishQuiz = () => (dispatch: Dispatch) => {
+  dispatch({
+    type: FINISH_QUIZ,
+    payload: { QuizOver: false },
+  })
+}
+
 export const updateHighlight =
-  (highlight: boolean, currentAnswer: string, QuizQuestions: any) => (dispatch: any) => {
-    let result = QuizQuestions.map((item: any) => {
+  (highlight: boolean, currentAnswer: string, QuizQuestions: Question[]) =>
+  (dispatch: Dispatch) => {
+    let result = QuizQuestions.map((item: Question) => {
       if (item.correct_answer === currentAnswer) {
         item = { ...item, forLater: highlight }
       }

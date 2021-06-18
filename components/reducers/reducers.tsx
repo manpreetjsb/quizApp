@@ -1,18 +1,24 @@
 import { Quiz } from '../reducers/actions/types'
-import { GET_DATA, CHECK_ANSWER, SHOW_QUESTION, MAKE_HIGHLIGHT } from '../reducers/actions/constant'
+
+import {
+  GET_DATA,
+  CHECK_ANSWER,
+  SHOW_QUESTION,
+  MAKE_HIGHLIGHT,
+  FINISH_QUIZ,
+} from '../reducers/actions/constant'
 
 const initialState: Quiz = {
   questions: [],
   loading: true,
-  QuizOver: false,
+  QuizOver: true,
   score: 0,
   TotalQuestion: 0,
   QuestionNumber: 1,
   index: 0,
 }
 
-const reducer = (state: any = initialState, { type, payload }) => {
-  console.log('payload', payload)
+const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_DATA:
       return {
@@ -39,6 +45,11 @@ const reducer = (state: any = initialState, { type, payload }) => {
       return {
         ...state,
         questions: payload.questions,
+      }
+    case FINISH_QUIZ:
+      return {
+        ...state,
+        QuizOver: payload.QuizOver,
       }
     default:
       return state

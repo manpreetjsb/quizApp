@@ -13,9 +13,9 @@ interface Props {
   answers: string[]
   questionNo: number
   totalQuestions: number
-  callBkFunction: any
+  callBkFunction: (item: string) => void
   userAnswer: string
-  callBkFunctionHigh: any
+  callBkFunctionHigh: (forLater: boolean) => void
   forLater: boolean
 }
 
@@ -60,7 +60,7 @@ const QuestionCard: React.FC<Props> = ({
               color={`${item === userAnswer ? 'secondary' : 'primary'}`}
               onClick={() => callBkFunction(item)}
             >
-              {item}
+              <Typography dangerouslySetInnerHTML={{ __html: item }}></Typography>
             </Button>
           </Grid>
         )
