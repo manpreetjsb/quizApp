@@ -16,13 +16,15 @@ import {
 import { Question, Quiz, RootState } from '../reducers/actions/types'
 import { FinishButton } from './index.styles'
 
+const text = (x: string) => x
+
 const Dashboard: React.FC<Quiz> = () => {
   const [start, setStart] = useState(true)
   const [showFinish, setShowFinish] = useState(false)
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
-  const QuizQuestions = useSelector((state: RootState) => state.questions[state.index])
-  const QuizState = useSelector((state: RootState) => state)
+  const QuizQuestions = useSelector((state: Quiz) => state.questions[state.index])
+  const QuizState = useSelector((state: Quiz) => state)
   let correct: number = 0
 
   const checkAnswer = (userAnswerProp: string) => {

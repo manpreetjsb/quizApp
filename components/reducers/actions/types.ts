@@ -19,13 +19,3 @@ export interface Quiz {
   TotalQuestion: number
   index: number
 }
-
-export type RootState = {
-  questions: Question[]
-  loading: boolean
-  QuizOver: boolean
-  score: number
-  QuestionNumber: number
-  TotalQuestion: number
-  index: number
-}
