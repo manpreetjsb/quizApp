@@ -13,7 +13,7 @@ import {
   finishQuiz,
   TryAgain,
 } from '../reducers/actions/actions'
-import { Question, Quiz, RootState } from '../reducers/actions/types'
+import { Question, Quiz } from '../reducers/actions/types'
 import { FinishButton } from './index.styles'
 
 const text = (x: string) => x
@@ -74,8 +74,6 @@ const Dashboard: React.FC<Quiz> = () => {
     setStart(true)
     start_quiz()
   }
-
-  //console.log('b', QuizQuestions)
 
   return (
     <Container>
@@ -142,7 +140,7 @@ const Dashboard: React.FC<Quiz> = () => {
               Try Again
             </Button>
           </Box>
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="center" m={2}>
             Your Score is {QuizState.score} / Out of 10
           </Box>
         </Grid>
